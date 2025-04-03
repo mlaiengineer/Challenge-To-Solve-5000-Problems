@@ -16,8 +16,3 @@ WHERE
     AND LOWER(city) NOT LIKE '%o' 
     AND LOWER(city) NOT LIKE '%u';
 
-Notes & Tips:
-✅ Purpose: This query retrieves unique city names from the STATION table that do not start or end with a vowel (A, E, I, O, U).
-✅ Use of LOWER(): Ensures case insensitivity while checking the first and last letter.
-✅ NOT LIKE operator: Used to filter out cities that match the specified patterns.
-✅ DISTINCT: Ensures that duplicate city names are removed from the result set.
