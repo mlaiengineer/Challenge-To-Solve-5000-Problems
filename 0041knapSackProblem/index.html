@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizing the Recursive Knapsack Algorithm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-box {
+            border: 2px solid #0077C0;
+            background-color: #F2F2F2;
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #005082;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#005082] mb-2">The Recursive Knapsack Problem</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">A visual journey into the classic algorithm's decision-making process, showing how it chooses the most valuable items without exceeding a weight limit.</p>
+        </header>
+
+        <main>
+            <section id="problem-setup" class="mb-12">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-[#0077C0] mb-4 text-center">The Challenge: Problem Setup</h2>
+                    <p class="text-center text-gray-600 mb-8">Imagine you have a knapsack with a limited weight capacity and a set of items, each with its own weight and value. The goal is to maximize the total value of items in the knapsack without exceeding the weight limit. Here are our specific parameters.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="bg-[#F2F2F2] p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-2">Knapsack Capacity</h3>
+                            <p class="text-5xl font-extrabold text-[#00A1E4]">8</p>
+                            <p class="text-gray-500">Weight Units</p>
+                        </div>
+                        <div class="bg-[#F2F2F2] p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-2">Number of Items</h3>
+                            <p class="text-5xl font-extrabold text-[#00A1E4]">3</p>
+                            <p class="text-gray-500">Available to Choose</p>
+                        </div>
+                        <div class="bg-[#F2F2F2] p-6 rounded-lg md:col-span-3">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Available Items</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full min-w-full text-left">
+                                    <thead class="bg-[#0077C0] text-white">
+                                        <tr>
+                                            <th class="p-3">Item Index</th>
+                                            <th class="p-3">Weight</th>
+                                            <th class="p-3">Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-300">
+                                            <td class="p-3 font-medium">Item 0</td>
+                                            <td class="p-3">1</td>
+                                            <td class="p-3">2</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-300">
+                                            <td class="p-3 font-medium">Item 1</td>
+                                            <td class="p-3">2</td>
+                                            <td class="p-3">3</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 font-medium">Item 2</td>
+                                            <td class="p-3">3</td>
+                                            <td class="p-3">4</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="core-logic" class="mb-12">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-[#0077C0] mb-4 text-center">The Core Recursive Logic</h2>
+                    <p class="text-center text-gray-600 mb-8">For each item, the algorithm makes a fundamental choice: either include the item in the knapsack or exclude it. This creates a branching path of decisions. The final answer is the maximum value found across all possible paths.</p>
+                    <div class="flex flex-col items-center">
+                        <div class="flow-box rounded-lg p-4 text-center shadow-md w-full max-w-xs">
+                            <p class="font-semibold">Consider Item at `index`</p>
+                        </div>
+                        <div class="flow-arrow my-2">↓</div>
+                        <div class="flow-box rounded-lg p-4 text-center shadow-md w-full max-w-xs">
+                            <p class="font-semibold">Does it fit in `remaining_weights`?</p>
+                        </div>
+                        <div class="w-full max-w-md flex justify-around my-2">
+                            <div class="flow-arrow">↙</div>
+                            <div class="flow-arrow">↘</div>
+                        </div>
+                        <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6 max-w-md">
+                            <div class="flow-box rounded-lg p-4 text-center shadow-md">
+                                <h4 class="font-bold text-green-600">YES: Include Item</h4>
+                                <p class="text-sm">Add item's value. Recurse with `index + 1` and `remaining_weights - item_weight`.</p>
+                            </div>
+                            <div class="flow-box rounded-lg p-4 text-center shadow-md">
+                                <h4 class="font-bold text-red-600">NO: Exclude Item</h4>
+                                <p class="text-sm">Value is 0 for this item. Recurse with `index + 1` and same `remaining_weights`.</p>
+                            </div>
+                        </div>
+                         <div class="flow-arrow my-2">↓</div>
+                        <div class="flow-box bg-[#005082] text-white rounded-lg p-4 text-center shadow-md w-full max-w-xs">
+                            <p class="font-semibold">Return max(Include Path, Exclude Path)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="comparison" class="mb-12">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-[#0077C0] mb-4 text-center">Comparing Potential Outcomes</h2>
+                    <p class="text-center text-gray-600 mb-8">The algorithm explores every valid combination of items. The bar chart below visualizes the total value for some of the key combinations that fit within the weight limit of 8. This comparison is implicitly what the `max()` function achieves at each step of the recursion.</p>
+                    <div class="chart-container">
+                        <canvas id="outcomesChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="solution" class="mb-12">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-[#0077C0] mb-4 text-center">The Optimal Solution</h2>
+                    <p class="text-center text-gray-600 mb-8">After exploring all branches of the decision tree, the algorithm concludes with the combination that yields the highest possible value while respecting the weight constraint.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="text-center bg-[#F2F2F2] p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold text-gray-700 mb-2">Maximum Achievable Value</h3>
+                            <p class="text-7xl font-extrabold text-[#00A1E4]">9</p>
+                        </div>
+                        <div class="bg-[#F2F2F2] p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold text-gray-700 mb-4">Items in the Optimal Knapsack</h3>
+                            <ul class="space-y-3 text-left">
+                                <li class="flex items-center"><span class="text-green-500 mr-3 text-2xl">✔</span> <strong>Item 0:</strong> Weight 1, Value 2</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-3 text-2xl">✔</span> <strong>Item 1:</strong> Weight 2, Value 3</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-3 text-2xl">✔</span> <strong>Item 2:</strong> Weight 3, Value 4</li>
+                            </ul>
+                            <div class="mt-4 pt-4 border-t border-gray-300 text-center">
+                                <p><strong>Total Weight:</strong> 6 / 8</p>
+                                <p><strong>Total Value:</strong> 9</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+             <section id="complexity">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 text-center">
+                    <h2 class="text-2xl font-bold text-[#0077C0] mb-4">A Note on Performance</h2>
+                    <p class="text-gray-600 mb-4">This recursive solution is elegant but inefficient. It has an exponential time complexity of <strong class="text-[#005082]">O(2<sup>n</sup>)</strong> because it may re-calculate the same subproblems multiple times.</p>
+                    <p class="text-gray-600">For larger datasets, this approach becomes too slow. The problem is typically optimized using <strong class="text-[#005082]">Dynamic Programming</strong> (specifically, memoization or tabulation) to store and reuse the results of subproblems, drastically improving performance.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        function wrapLabels(label, maxWidth) {
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const ctx = document.getElementById('outcomesChart').getContext('2d');
+        const outcomesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Items 0, 1', 
+                    'Items 0, 2', 
+                    'Items 1, 2', 
+                    'Items 0, 1, 2 (Optimal)'
+                ],
+                datasets: [{
+                    label: 'Total Value',
+                    data: [5, 6, 7, 9],
+                    backgroundColor: [
+                        '#00A1E4',
+                        '#00A1E4',
+                        '#00A1E4',
+                        '#005082'
+                    ],
+                    borderColor: '#0077C0',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Combined Value'
+                        }
+                    },
+                    x: {
+                         title: {
+                            display: true,
+                            text: 'Item Combinations (Total Weight <= 8)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
