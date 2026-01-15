@@ -150,13 +150,6 @@ if __name__ == "__main__":
 | Memoization   | O(n²)| O(n²) | Top-Down |
 | Tabulation    | O(n²)| O(n²) | Bottom-Up |
 
----
-
-# 🚀 How to Run
-
-```bash
-python solution.py
-```
 
 ---
 
@@ -167,6 +160,3 @@ python solution.py
 - Memoization is easier to write recursively.
 
 ---
-
-### Author
-Prepared for GitHub sharing with clean structure and tests.
