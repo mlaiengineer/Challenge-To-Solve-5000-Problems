@@ -1,4 +1,4 @@
-class Solution(object):
+class RecursionSolution(object):
     def minCut(self, s):
         """
         Returns the minimum number of cuts needed to partition the string

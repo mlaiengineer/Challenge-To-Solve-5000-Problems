@@ -1,27 +1,35 @@
-from recursion_solution import Solution
+from recursion_solution import RecursionSolution
+from memoization_solution import MemoizationSolution
 
 
-def test_min_cut():
-    solution = Solution()
+TEST_CASES = [
+    ("a", 0),
+    ("ab", 1),
+    ("aa", 0),
+    ("aab", 1),
+    ("aabb", 1),
+    ("ababbbabbababa", 3),
+    ("racecar", 0),
+    ("banana", 1),
+    ("cdd", 1),
+    ("noonabbad", 2),
+]
 
-    # Basic cases
-    assert solution.minCut("a") == 0
-    assert solution.minCut("ab") == 1
-    assert solution.minCut("aa") == 0
 
-    # Given examples
-    assert solution.minCut("aab") == 1
+def test_recursion_solution():
+    solution = RecursionSolution()
+    for string, expected in TEST_CASES:
+        assert solution.minCut(string) == expected
+    print("✅ Recursion solution passed all tests")
 
-    # More cases
-    assert solution.minCut("aabb") == 1        # "aa" | "bb"
-    assert solution.minCut("ababbbabbababa") == 3
-    assert solution.minCut("racecar") == 0
-    assert solution.minCut("banana") == 1      # "b" | "anana"
-    assert solution.minCut("cdd") == 1          # "c" | "dd"
-    assert solution.minCut("noonabbad") == 2    # "noon" | "abba" | "d"
 
-    print("✅ All 10 test cases passed!")
+def test_memoization_solution():
+    solution = MemoizationSolution()
+    for string, expected in TEST_CASES:
+        assert solution.minCut(string) == expected
+    print("✅ Memoization solution passed all tests")
 
 
 if __name__ == "__main__":
-    test_min_cut()
+    test_recursion_solution()
+    test_memoization_solution()
