@@ -1,6 +1,6 @@
 from recursion_solution import RecursionSolution
 from memoization_solution import MemoizationSolution
-
+from tabulation_solution import TabulationSolution
 
 TEST_CASES = [
     ("a", 0),
@@ -29,7 +29,12 @@ def test_memoization_solution():
         assert solution.minCut(string) == expected
     print("✅ Memoization solution passed all tests")
 
-
+def test_tabulation_solution():
+    solution = TabulationSolution()
+    for string, expected in TEST_CASES:
+        assert  solution.minCut(string) == expected
+    print("👨🏽‍💻 Tabulation solution passed all test cases✈️")
 if __name__ == "__main__":
     test_recursion_solution()
     test_memoization_solution()
+    test_tabulation_solution()
