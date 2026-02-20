@@ -1,18 +1,19 @@
 """
 Test Suite for LeetCode 139: Word Break
-Tests both Recursion and Tabulation (Bottom-Up DP) solutions separately.
+Tests Recursion, Memoization, and Tabulation (Bottom-Up DP) solutions separately.
 Contains 15 optimized test cases covering all key scenarios.
 """
 
 import unittest
 from recursion_solution import Solution as RecursionSolution
 from tabulation_solution import Solution as TabulationSolution
+from memoization_solution import Solution as MemoizationSolution
 
 
 class BaseTestWordBreak:
     """
     Base test class containing all test cases.
-    Shared between both RecursionSolution and TabulationSolution test classes.
+    Shared between RecursionSolution, MemoizationSolution, and TabulationSolution test classes.
     """
 
     # ========== LEETCODE EXAMPLE TEST CASES ==========
@@ -98,6 +99,16 @@ class TestRecursionSolution(BaseTestWordBreak, unittest.TestCase):
         self.solution = RecursionSolution()
 
 
+# ========== MEMOIZATION SOLUTION TESTS ==========
+
+class TestMemoizationSolution(BaseTestWordBreak, unittest.TestCase):
+    """Runs all test cases against the Memoization (Top-Down DP) Solution"""
+
+    def setUp(self):
+        """Initialize MemoizationSolution before each test"""
+        self.solution = MemoizationSolution()
+
+
 # ========== TABULATION SOLUTION TESTS ==========
 
 class TestTabulationSolution(BaseTestWordBreak, unittest.TestCase):
@@ -114,6 +125,7 @@ def run_tests_with_summary():
     """Run all tests and display a clean summary"""
 
     suite = unittest.TestLoader().loadTestsFromTestCase(TestRecursionSolution)
+    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestMemoizationSolution))
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestTabulationSolution))
 
     runner = unittest.TextTestRunner(verbosity=2)
